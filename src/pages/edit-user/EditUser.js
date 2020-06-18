@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
@@ -17,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export function EditUser({ id }) {
+  const history = useHistory();
   const classes = useStyles();
   const dispatch = useDispatch();
   const user = useSelector((state) => selectUser(state, +id));
@@ -24,6 +26,14 @@ export function EditUser({ id }) {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [desc, setDesc] = useState("");
+
+  useEffect(() => {
+    if (user) {
+      setName(user.name);
+      setSurname(user.surname);
+      setDesc(user.desc);
+    }
+  }, [user]);
 
   const editUser = async () => {
     const editUser = {
@@ -35,6 +45,7 @@ export function EditUser({ id }) {
     const userService = new UserService();
     const updatedUser = await userService.update(editUser);
     dispatch(editUserSuccess(updatedUser));
+    history.push("/");
   };
 
   return (
@@ -45,7 +56,7 @@ export function EditUser({ id }) {
           <TextField
             id="standard-basic"
             label="Name"
-            value={user.name}
+            value={name}
             onChange={(e) => setName(e.target.value)}
           />
         </div>
@@ -53,7 +64,7 @@ export function EditUser({ id }) {
           <TextField
             id="standard-basic"
             label="SecondName"
-            value={user.surname}
+            value={surname}
             onChange={(e) => setSurname(e.target.value)}
           />
         </div>
@@ -61,7 +72,7 @@ export function EditUser({ id }) {
           <TextField
             id="standard-basic"
             label="Desc"
-            value={user.desc}
+            value={desc}
             onChange={(e) => setDesc(e.target.value)}
           />
         </div>

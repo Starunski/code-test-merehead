@@ -21,6 +21,8 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
 import { Button } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -78,11 +80,15 @@ export function Main() {
                   <TableCell align="center">{user.desc}</TableCell>
                   <TableCell align="center">
                     {" "}
-                    <Button onClick={() => editUser(user.id)}>!</Button>
+                    <Button onClick={() => editUser(user.id)}>
+                      <EditIcon />
+                    </Button>
                   </TableCell>
                   <TableCell align="center">
                     {" "}
-                    <Button onClick={() => deleteUser(user.id)}>X</Button>
+                    <Button onClick={() => deleteUser(user.id)}>
+                      <DeleteIcon />
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}

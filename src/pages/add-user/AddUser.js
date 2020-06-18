@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
@@ -12,11 +13,12 @@ import { addUserSuccess } from "../../store/users/users.reducer";
 const useStyles = makeStyles((theme) => ({
   submit: {
     marginTop: "1em",
-    textAlign: "center"
+    textAlign: "center",
   },
 }));
 
 export function AddUser() {
+  const history = useHistory();
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -33,6 +35,7 @@ export function AddUser() {
     const userService = new UserService();
     const newUser = await userService.create(user);
     dispatch(addUserSuccess(newUser));
+    history.push("/");
   };
 
   return (
